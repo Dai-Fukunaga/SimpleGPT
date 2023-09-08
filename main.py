@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 # Replace with your OpenAI API key
-API_KEY = "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"
+API_KEY = ""
 
 def query_chatgpt(prompt):
     header = {
