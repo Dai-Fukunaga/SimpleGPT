@@ -1,22 +1,27 @@
 import requests
 
-# API KEYは外部に公開しないこと
-API_KEY = "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"
+# APIトークンは外部に公開しないこと
+API_KEY = ""
 
-header = {
-    "Content-Type" : "application/json",
-    "Authorization" : f"Bearer {API_KEY}",
-}
+# チャットGPTに質問する関数
+def query_chatgpt(prompt):
+    header = {
+        "Content-Type" : "application/json",
+        "Authorization" : f"Bearer {API_KEY}",
+    }
 
-body = '''
-{
-    "model": "gpt-3.5-turbo",
-    "messages": [
-        {"role": "user", "content": "難しかったよー！"}
-    ]
-}
-'''
+    body = '''
+    {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            {"role": "user", "content":"''' + prompt + '''"}
+        ]
+    }
+    '''
+    response = requests.post("https://api.openai.com/v1/chat/completions", headers = header, data = body.encode('utf_8'))
+    rj = response.json()
+    return rj["choices"][0]["message"]["content"]
 
-response = requests.post("https://api.openai.com/v1/chat/completions", headers = header, data = body.encode('utf_8'))
-
-print(response.text)
+# ここからがメインプログラム
+ans = query_chatgpt("日本一高い山はなんですか？")
+print(ans)
